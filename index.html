@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TimeWise</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0d0d18;
+            color: #e2e8f0;
+        }
+        .login-card {
+            background: rgba(15, 12, 41, 0.5);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
+            width: 90%;
+            max-width: 400px;
+            padding: 2.5rem;
+            margin: 2rem auto;
+            position: relative;
+            z-index: 10;
+        }
+        .sphere {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(2px);
+            animation: float 15s infinite ease-in-out;
+            opacity: 0.8;
+            z-index: 0;
+        }
+        .sphere-1 {
+            width: 250px;
+            height: 250px;
+            top: 10%;
+            left: 25%;
+            background: radial-gradient(circle at 30% 30%, #ff00ff 0%, #9d00ff 100%);
+            animation-delay: 0s;
+        }
+        .sphere-2 {
+            width: 180px;
+            height: 180px;
+            bottom: 15%;
+            right: 15%;
+            background: radial-gradient(circle at 30% 30%, #00ffcc 0%, #0099ff 100%);
+            animation-delay: 3s;
+        }
+        .sphere-3 {
+            width: 120px;
+            height: 120px;
+            top: 90%;
+            left: 20%;
+            background: radial-gradient(circle at 30% 30%, #ffcc00 0%, #ff6600 100%);
+            animation-delay: 6s;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+        .title {
+            background: linear-gradient(90deg, #9d00ff, #00ffcc);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: inline-block;
+        }
+        .input-group label {
+            color: #e2e8f0;
+            opacity: 0.8;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        .input-group input, .input-group textarea {
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 0.5rem;
+            padding: 0.75rem 1rem;
+            color: white;
+            width: 100%;
+        }
+        .input-group input::placeholder, .input-group textarea::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+        .input-group input:focus, .input-group textarea:focus {
+            outline: none;
+            border-color: #00ffcc;
+            box-shadow: 0 0 0 2px rgba(0, 255, 204, 0.5);
+        }
+        .button-primary {
+            background: linear-gradient(90deg, #00ffcc, #9d00ff);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 255, 204, 0.2);
+        }
+        .button-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 255, 204, 0.3);
+        }
+        .button-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .fade-in {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .sidebar-item {
+          transition: transform 0.2s ease-in-out;
+        }
+        .sidebar-item:hover {
+          transform: translateX(5px);
+        }
+        .icon-btn {
+            background-color: #1a1a2b;
+            color: #ccc;
+            padding: 1rem;
+            border-radius: 12px;
+            transition: all 0.2s ease;
+        }
+        .icon-btn:hover {
+            background-color: #2a2a3b;
+            color: #fff;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+        .dark-card {
+            background-color: #1a1a2e;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            border: 1px solid #2a2a4b;
+        }
+        .image-card {
+            min-height: 200px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 12px;
+            position: relative;
+        }
+        .card-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0));
+            padding: 1rem;
+            color: white;
+            border-bottom-left-radius: 12px;
+            border-bottom-right-radius: 12px;
+        }
+        .text-overlay {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            background-color: rgba(0, 0, 0, 0.6);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body class="min-h-screen font-sans bg-[#0a0a0a] text-gray-200">
+
+    <div id="app"></div>
+
+    <script>
+        const app = document.getElementById('app');
+
+        let isLoggedIn = false;
+        let email = '';
+        let password = '';
+        let message = null;
+        let activeTab = 'dashboard';
+        let isLoading = false;
+        let isSidebarOpen = false;
+
+        const formParams = {
+            classrooms: '2',
+            batches: '8',
+            subjects: 'Mathematics, Science, History, English, Computer Science',
+            classesPerSubject: '3',
+            maxClassesPerDay: '5',
+            faculties: 'Dr. Ramesh Sharma, Smt. Anjali Gupta, Shri Vijay Kumar, Ms. Pooja Singh',
+            avgFacultyLeaves: '2',
+            specialClasses: 'e.g., Physics Lab every Monday 10-12 AM for Batch A in Lab 1',
+        };
+
+        let timetables = [];
+        let selectedTimetableIndex = 0;
+
+        const dummyFaculty = [
+            { id: 1, name: 'Dr. Priya Sharma', role: 'Principal', image: 'https://placehold.co/200x200/5e389f/ffffff?text=PS' },
+            { id: 2, name: 'Mr. Arjun Gupta', role: 'Head of Department', image: 'https://placehold.co/200x200/5e389f/ffffff?text=AG' },
+            { id: 3, name: 'Mrs. Anjali Mehta', role: 'Head of Department', image: 'https://placehold.co/200x200/5e389f/ffffff?text=AM' },
+            { id: 4, name: 'Dr. Rohan Joshi', role: 'Head of Department', image: 'https://placehold.co/200x200/5e389f/ffffff?text=RJ' },
+            { id: 5, name: 'Ms. Sneha Reddy', role: 'Head of Department', image: 'https://placehold.co/200x200/5e389f/ffffff?text=SR' }
+        ];
+
+        const dummyClassrooms = [
+            { name: 'C1 - Turing Hall', features: ['Projector', 'Whiteboard'], capacity: 60, image: 'https://placehold.co/400x250/3d5843/ffffff?text=Room+1' },
+            { name: 'C2 - Babbage Hall', features: ['Projector', 'Smart TV', 'Video Conferencing'], capacity: 50, image: 'https://placehold.co/400x250/2f4f4f/ffffff?text=Room+2' },
+            { name: 'Lab 1 - Innovation Lab', features: ['Computers', 'Projector', 'High-Speed Wi-Fi'], capacity: 40, image: 'https://placehold.co/400x250/506d86/ffffff?text=Lab+1' },
+            { name: 'C3 - Ramanujan Hall', features: ['Projector', 'Whiteboard', 'Sound System'], capacity: 70, image: 'https://placehold.co/400x250/1e4c5b/ffffff?text=Room+3' },
+            { name: 'Lab 2 - Physics Lab', features: ['Lab Equipment', 'Projector', 'Safety Gear'], capacity: 45, image: 'https://placehold.co/400x250/4b4b4b/ffffff?text=Lab+2' },
+            { name: 'C4 - Aryabhatta Hall', features: ['Smart TV', 'Whiteboard', 'Wi-Fi'], capacity: 65, image: 'https://placehold.co/400x250/665c71/ffffff?text=Room+4' }
+        ];
+
+        const sampleTimetable = {
+            batches: {
+                'Batch A': {
+                    'Monday': {
+                        '9:00 - 10:00': { subject: 'Data Structures', faculty: 'Dr. Arjun Gupta', classroom: 'C1' },
+                        '10:00 - 11:00': { subject: 'Calculus', faculty: 'Mrs. Anjali Mehta', classroom: 'C3' },
+                        '11:00 - 12:00': { subject: 'Quantum Physics', faculty: 'Dr. Rohan Joshi', classroom: 'Lab 1' },
+                        '12:00 - 1:00': { subject: 'Lunch Break' },
+                        '1:00 - 2:00': { subject: 'Organic Chemistry', faculty: 'Ms. Sneha Reddy', classroom: 'Lab 4' },
+                        '2:00 - 3:00': { subject: 'Computer Networks', faculty: 'Mr. Arjun Gupta', classroom: 'C2' }
+                    },
+                    'Tuesday': {
+                        '9:00 - 10:00': { subject: 'Algorithms', faculty: 'Mrs. Anjali Mehta', classroom: 'C2' },
+                        '10:00 - 11:00': { subject: 'Calculus', faculty: 'Mrs. Anjali Mehta', classroom: 'C4' },
+                        '11:00 - 12:00': { subject: 'Classical Mechanics', faculty: 'Dr. Rohan Joshi', classroom: 'Lab 3' },
+                        '12:00 - 1:00': { subject: 'Lunch Break' },
+                        '1:00 - 2:00': { subject: 'Inorganic Chemistry', faculty: 'Ms. Sneha Reddy', classroom: 'Lab 1' },
+                        '2:00 - 3:00': { subject: 'Database Systems', faculty: 'Mr. Arjun Gupta', classroom: 'C1' }
+                    },
+                    'Wednesday': {
+                        '9:00 - 10:00': { subject: 'Data Structures', faculty: 'Dr. Arjun Gupta', classroom: 'C1' },
+                        '10:00 - 11:00': { subject: 'Calculus', faculty: 'Mrs. Anjali Mehta', classroom: 'C3' },
+                        '11:00 - 12:00': { subject: 'Quantum Physics', faculty: 'Dr. Rohan Joshi', classroom: 'Lab 1' },
+                        '12:00 - 1:00': { subject: 'Lunch Break' },
+                        '1:00 - 2:00': { subject: 'Organic Chemistry', faculty: 'Ms. Sneha Reddy', classroom: 'Lab 4' },
+                        '2:00 - 3:00': { subject: 'Computer Networks', faculty: 'Mr. Arjun Gupta', classroom: 'C2' }
+                    },
+                    'Thursday': {
+                        '9:00 - 10:00': { subject: 'Algorithms', faculty: 'Mrs. Anjali Mehta', classroom: 'C2' },
+                        '10:00 - 11:00': { subject: 'Linear Algebra', faculty: 'Mrs. Anjali Mehta', classroom: 'C4' },
+                        '11:00 - 12:00': { subject: 'Classical Mechanics', faculty: 'Dr. Rohan Joshi', classroom: 'Lab 3' },
+                        '12:00 - 1:00': { subject: 'Lunch Break' },
+                        '1:00 - 2:00': { subject: 'Inorganic Chemistry', faculty: 'Ms. Sneha Reddy', classroom: 'Lab 1' },
+                        '2:00 - 3:00': { subject: 'Database Systems', faculty: 'Mr. Arjun Gupta', classroom: 'C1' }
+                    },
+                    'Friday': {
+                        '9:00 - 10:00': { subject: 'Data Structures', faculty: 'Dr. Arjun Gupta', classroom: 'C1' },
+                        '10:00 - 11:00': { subject: 'Calculus', faculty: 'Mrs. Anjali Mehta', classroom: 'C3' },
+                        '11:00 - 12:00': { subject: 'Quantum Physics', faculty: 'Dr. Rohan Joshi', classroom: 'Lab 1' },
+                        '12:00 - 1:00': { subject: 'Lunch Break' },
+                        '1:00 - 2:00': { subject: 'Organic Chemistry', faculty: 'Ms. Sneha Reddy', classroom: 'Lab 4' },
+                        '2:00 - 3:00': { subject: 'Computer Networks', faculty: 'Mr. Arjun Gupta', classroom: 'C2' }
+                    },
+                }
+            }
+        };
+
+        function render() {
+            app.innerHTML = '';
+            if (!isLoggedIn) {
+                renderLogin();
+            } else {
+                renderDashboard();
+            }
+            if (message) {
+                renderMessageBox();
+            }
+        }
+
+        function renderLogin() {
+            const loginHtml = `
+                <div class="relative flex flex-col items-center justify-center min-h-screen">
+                    <div class="sphere sphere-1"></div>
+                    <div class="sphere sphere-2"></div>
+                    <div class="sphere sphere-3"></div>
+                    <div class="login-card" id="login-card">
+                        <div class="text-center mb-8">
+                            <h1 class="text-4xl font-bold title mb-2">Welcome Back</h1>
+                            <p class="text-white opacity-80">Sign in to your account</p>
+                        </div>
+                        
+                        <form id="login-form" class="space-y-6">
+                            <div class="space-y-4">
+                                <div>
+                                    <div class="flex items-center mb-1">
+                                        <svg class="w-4 h-4 text-white mr-2 opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8m-2 2v4a2 2 0 01-2 2H7a2 2 0 01-2-2v-4a2 2 0 012-2h10a2 2 0 012 2z" /></svg>
+                                        <label for="email" class="text-white text-sm opacity-80">Email Address</label>
+                                    </div>
+                                    <input type="email" id="email" class="input-group input-group-input input-field w-full p-3 rounded-lg bg-gray-700 bg-opacity-30 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-cyan-500 text-white" placeholder="Enter your email" value="${email}">
+                                </div>
+                                
+                                <div>
+                                    <div class="flex items-center mb-1">
+                                        <svg class="w-4 h-4 text-white mr-2 opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9a2 2 0 100-4 2 2 0 000 4z" /></svg>
+                                        <label for="password" class="text-white text-sm opacity-80">Password</label>
+                                    </div>
+                                    <input type="password" id="password" class="input-group input-group-input input-field w-full p-3 rounded-lg bg-gray-700 bg-opacity-30 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-cyan-500 text-white" placeholder="Enter your password" value="${password}">
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center justify-between text-sm">
+                                <div class="flex items-center">
+                                    <input type="checkbox" id="remember" class="rounded text-cyan-500 bg-gray-700 border-gray-600 focus:ring-cyan-500" />
+                                    <label for="remember" class="ml-2 text-white opacity-80 cursor-pointer">Remember me</label>
+                                </div>
+                                <a href="#" class="text-white opacity-80 hover:opacity-100 hover:text-cyan-300 transition">Forgot password?</a>
+                            </div>
+                            
+                            <button type="submit" class="w-full py-3 rounded-lg font-bold text-white bg-gradient-to-r from-cyan-500 to-indigo-500 hover:from-cyan-600 hover:to-indigo-600 transition-all shadow-lg">LOGIN</button>
+                        </form>
+                        
+                        <div class="text-center mt-8">
+                            <p class="text-white text-sm opacity-80">
+                                Don't have an account? <a href="#" class="font-medium hover:opacity-100 text-cyan-300 transition">Sign up</a>
+                            </p>
+                            <p class="text-gray-400 text-xs mt-2">
+                                Use <b>admin@timewise.com</b> and <b>password</b> to log in.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            `;
+            app.innerHTML = loginHtml;
+            document.getElementById('login-form').addEventListener('submit', handleLogin);
+        }
+
+        function renderDashboard() {
+            let contentHtml = '';
+            
+            const timetableOptionsHtml = timetables.map((_, index) => `
+                <button onclick="setSelectedTimetable(${index})" class="px-4 py-2 rounded-full font-medium transition-colors ${selectedTimetableIndex === index ? 'bg-indigo-600 text-white shadow-lg' : 'bg-[#2a2a3b] text-gray-200 hover:bg-[#3b3b4f]'}">
+                    Option ${index + 1}
+                </button>
+            `).join('');
+
+            const timetableDisplayHtml = (timetable) => {
+                if (!timetable || Object.keys(timetable.batches).length === 0) {
+                    return `<div class="text-white text-center p-8 opacity-70">No timetable generated yet. Please go to Dashboard to start.</div>`;
+                }
+                const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+                const slots = Object.keys(Object.values(timetable.batches)[0].Monday);
+
+                let batchHtml = '';
+                for (const [batchName, daysData] of Object.entries(timetable.batches)) {
+                    let tableRowsHtml = '';
+                    slots.forEach(slot => {
+                        let classCellsHtml = '';
+                        days.forEach(day => {
+                            const classInfo = daysData[day] ? daysData[day][slot] : null;
+                            classCellsHtml += `
+                                <td class="px-4 py-2 text-center">
+                                    ${classInfo && classInfo.subject !== 'Lunch Break' ? `
+                                        <div class="flex flex-col items-center justify-center space-y-1">
+                                            <span class="font-semibold text-indigo-400">${classInfo.subject}</span>
+                                            <span class="text-xs text-gray-400">(${classInfo.faculty})</span>
+                                            <span class="text-xs text-gray-500">${classInfo.classroom}</span>
+                                        </div>
+                                    ` : `
+                                        <span class="text-gray-600">-</span>
+                                    `}
+                                </td>
+                            `;
+                        });
+                        tableRowsHtml += `<tr class="border-b border-gray-700 hover:bg-white hover:bg-opacity-5 transition-colors"><td class="px-4 py-2 font-medium text-gray-200 whitespace-nowrap">${slot}</td>${classCellsHtml}</tr>`;
+                    });
+
+                    batchHtml += `
+                        <div class="mb-8 p-6 bg-white bg-opacity-5 rounded-lg border border-gray-700">
+                            <h4 class="text-lg font-bold text-cyan-300 mb-2">${batchName}</h4>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-sm text-left text-gray-300 rounded-lg overflow-hidden">
+                                    <thead class="text-xs text-gray-200 uppercase bg-white bg-opacity-10">
+                                        <tr>
+                                            <th scope="col" class="px-4 py-2">Time Slot</th>
+                                            ${days.map(day => `<th scope="col" class="px-4 py-2 text-center">${day}</th>`).join('')}
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        ${tableRowsHtml}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                return `
+                    <div class="p-6 rounded-xl bg-gray-900 bg-opacity-20 backdrop-blur-xl">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-200">Timetable</h3>
+                        ${batchHtml}
+                    </div>
+                `;
+            };
+
+            switch (activeTab) {
+                case 'dashboard':
+                    contentHtml = `
+                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 fade-in">
+                            <div class="lg:col-span-2 dark-card">
+                                <h2 class="text-xl md:text-2xl font-semibold mb-4 text-cyan-400">Timetable Generator</h2>
+                                <p class="text-gray-400 mb-6 text-sm">
+                                    Input your institution's parameters to generate optimized timetables.
+                                </p>
+                                <form id="timetable-form">
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                                        <div class="input-group">
+                                            <label for="classrooms" class="text-sm">Number of Classrooms</label>
+                                            <input type="number" name="classrooms" id="classrooms" value="${formParams.classrooms}" class="input-field" />
+                                        </div>
+                                        <div class="input-group">
+                                            <label for="batches" class="text-sm">Number of Student Batches</label>
+                                            <input type="number" name="batches" id="batches" value="${formParams.batches}" class="input-field" />
+                                        </div>
+                                        <div class="input-group">
+                                            <label for="subjects" class="text-sm">Number of Subjects</label>
+                                            <input type="number" name="subjects" id="subjects" value="${formParams.subjects}" class="input-field" />
+                                        </div>
+                                        <div class="input-group">
+                                            <label for="subjectNames" class="text-sm">Subject Names (comma-separated)</label>
+                                            <input type="text" name="subjectNames" id="subjectNames" value="${formParams.subjectNames}" class="input-field" />
+                                        </div>
+                                        <div class="input-group">
+                                            <label for="maxClassesPerDay" class="text-sm">Max Classes Per Day</label>
+                                            <input type="number" name="maxClassesPerDay" id="maxClassesPerDay" value="${formParams.maxClassesPerDay}" class="input-field" />
+                                        </div>
+                                        <div class="input-group">
+                                            <label for="classesPerSubject" class="text-sm">Classes per Subject per Week</label>
+                                            <input type="number" name="classesPerSubject" id="classesPerSubject" value="${formParams.classesPerSubject}" class="input-field" />
+                                        </div>
+                                        <div class="input-group">
+                                            <label for="faculties" class="text-sm">Available Faculty (comma-separated)</label>
+                                            <input type="text" name="faculties" id="faculties" value="${formParams.faculties}" class="input-field" />
+                                        </div>
+                                        <div class="input-group">
+                                            <label for="avgFacultyLeaves" class="text-sm">Avg. Faculty Leaves per Month</label>
+                                            <input type="number" name="avgFacultyLeaves" id="avgFacultyLeaves" value="${formParams.avgFacultyLeaves}" class="input-field" />
+                                        </div>
+                                        <div class="input-group md:col-span-2">
+                                            <label for="specialClasses" class="text-sm">Special Classes (Fixed Slots)</label>
+                                            <textarea name="specialClasses" id="specialClasses" rows="3" class="input-field resize-none">${formParams.specialClasses}</textarea>
+                                        </div>
+                                    </div>
+                                    <div class="mt-4 flex justify-end">
+                                        <button type="submit" class="button-primary flex items-center gap-2" ${isLoading ? 'disabled' : ''}>
+                                            ${isLoading ? `<svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.96l2-2.67z"></path></svg>` : ''}
+                                            <span>${isLoading ? 'Generating...' : 'Generate Timetables'}</span>
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="lg:col-span-1 space-y-6">
+                                <div class="dark-card text-center relative overflow-hidden">
+                                    <div class="absolute top-0 left-0 w-full h-full opacity-50 z-0" style="background: radial-gradient(circle at 50% 10%, rgba(157, 0, 255, 0.3) 0%, transparent 70%);"></div>
+                                    <div class="relative z-10 flex flex-col items-center">
+                                        <div class="w-24 h-24 rounded-full bg-gray-700 ring-4 ring-indigo-500 flex items-center justify-center mb-4 overflow-hidden">
+                                            <img src="https://placehold.co/96x96/5e389f/ffffff?text=AU" alt="User Avatar" class="w-full h-full object-cover" />
+                                        </div>
+                                        <h3 class="text-xl font-bold text-white">Admin User</h3>
+                                        <p class="text-sm text-gray-400">admin@timewise.com</p>
+                                    </div>
+                                </div>
+                                <div class="dark-card">
+                                    <h3 class="text-lg font-semibold text-white mb-4">Timetable Preview</h3>
+                                    ${timetableDisplayHtml(sampleTimetable)}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                case 'timetables':
+                    contentHtml = `
+                        <div class="dark-card fade-in">
+                            <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-4">
+                                <h2 class="text-xl md:text-2xl font-semibold text-cyan-400 mb-4 md:mb-0">Generated Timetables</h2>
+                                <div class="flex flex-wrap gap-2 md:space-x-2">
+                                    ${timetableOptionsHtml}
+                                </div>
+                            </div>
+                            ${timetableDisplayHtml(timetables.length > 0 ? timetables[selectedTimetableIndex] : sampleTimetable)}
+                        </div>
+                    `;
+                    break;
+                case 'faculty':
+                    contentHtml = `
+                        <div class="dark-card fade-in">
+                            <h2 class="text-xl md:text-2xl font-semibold text-cyan-400 mb-6">Faculty Management</h2>
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                ${dummyFaculty.map(faculty => `
+                                    <div class="dark-card p-4 flex items-center justify-center relative group">
+                                        <div class="relative w-32 h-32 mb-4 rounded-full overflow-hidden border-2 border-indigo-500">
+                                            <img src="${faculty.image}" alt="${faculty.name}" class="w-full h-full object-cover" />
+                                        </div>
+                                        <div class="absolute inset-0 flex flex-col justify-end p-4 bg-gradient-to-t from-gray-900 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity">
+                                            <h3 class="font-bold text-lg text-white">${faculty.name}</h3>
+                                            <p class="text-sm text-gray-400">${faculty.role}</p>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `;
+                    break;
+                case 'classrooms':
+                    contentHtml = `
+                        <div class="dark-card fade-in">
+                            <h2 class="text-xl md:text-2xl font-semibold text-cyan-400 mb-6">Classroom Management</h2>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                                ${dummyClassrooms.map(room => `
+                                    <div class="dark-card p-0 overflow-hidden">
+                                        <div class="image-card" style="background-image: url('${room.image}');">
+                                            <div class="text-overlay">Capacity: ${room.capacity}</div>
+                                        </div>
+                                        <div class="p-4">
+                                            <h3 class="font-bold text-lg text-white mb-2">${room.name}</h3>
+                                            <div class="flex flex-wrap gap-2 text-xs">
+                                                <span class="text-gray-400">Features:</span>
+                                                ${room.features.map(feature => `<span class="bg-gray-700 px-2 py-1 rounded-full text-gray-300">${feature}</span>`).join('')}
+                                            </div>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `;
+                    break;
+                case 'settings':
+                    contentHtml = `
+                        <div class="dark-card fade-in">
+                            <h2 class="text-xl md:text-2xl font-semibold text-cyan-400 mb-6">Settings</h2>
+                            <p class="text-gray-400">Settings functionality would be implemented here.</p>
+                        </div>
+                    `;
+                    break;
+                default:
+                    contentHtml = '';
+            }
+
+            const dashboardHtml = `
+                <div class="flex min-h-screen bg-[#0d0d18] text-gray-200">
+                    <!-- Vertical Navigation Bar -->
+                    <div class="hidden md:flex flex-col w-20 bg-[#1a1a2e] border-r border-[#2d2d4c] items-center py-8 space-y-8">
+                        <h2 class="text-2xl font-bold title">TW</h2>
+                        <nav class="flex flex-col items-center space-y-4">
+                            <button onclick="setActiveTab('dashboard')" class="icon-btn ${activeTab === 'dashboard' ? 'text-white bg-[#2a2a3b]' : ''}" title="Dashboard">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg>
+                            </button>
+                            <button onclick="setActiveTab('timetables')" class="icon-btn ${activeTab === 'timetables' ? 'text-white bg-[#2a2a3b]' : ''}" title="Timetables">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                            </button>
+                            <button onclick="setActiveTab('faculty')" class="icon-btn ${activeTab === 'faculty' ? 'text-white bg-[#2a2a3b]' : ''}" title="Faculty">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+                            </button>
+                            <button onclick="setActiveTab('classrooms')" class="icon-btn ${activeTab === 'classrooms' ? 'text-white bg-[#2a2a3b]' : ''}" title="Classrooms">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-2m14 0v-2.172a3 3 0 00-.879-2.121l-3.267-3.268a3 3 0 00-4.242 0L9.879 17.1a3 3 0 00-.879 2.121V21m10-2h2M7 21H5a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2v12" /></svg>
+                            </button>
+                            <button onclick="setActiveTab('settings')" class="icon-btn ${activeTab === 'settings' ? 'text-white bg-[#2a2a3b]' : ''}" title="Settings">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37a1.724 1.724 0 002.572-1.065z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                            </button>
+                        </nav>
+                        <div class="mt-auto">
+                            <button onclick="handleLogout()" class="icon-btn" title="Logout">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Main Content Area -->
+                    <div class="flex-1 flex flex-col">
+                        <!-- Top Bar -->
+                        <header class="p-4 md:p-6 flex justify-between items-center bg-[#1a1a2e] border-b border-[#2d2d4c]">
+                            <div class="flex items-center">
+                                <button onclick="isSidebarOpen = !isSidebarOpen; render();" class="md:hidden p-2 rounded-full text-gray-400 hover:bg-[#2d2d4c] mr-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                                    </svg>
+                                </button>
+                                <h1 class="text-xl md:text-2xl font-bold text-gray-50">${activeTab.charAt(0).toUpperCase() + activeTab.slice(1)}</h1>
+                            </div>
+                            <div class="flex items-center space-x-4">
+                                <span class="text-sm font-semibold text-gray-400 hidden md:block">admin@timewise.com</span>
+                                <div class="w-10 h-10 rounded-full bg-indigo-600 flex items-center justify-center text-white font-bold">AU</div>
+                            </div>
+                        </header>
+
+                        <!-- Content for each tab -->
+                        <main class="flex-1 p-4 md:p-6 overflow-y-auto" id="content-main">
+                            ${contentHtml}
+                        </main>
+                    </div>
+                </div>
+            `;
+            app.innerHTML = dashboardHtml;
+
+            if (activeTab === 'dashboard') {
+                document.getElementById('timetable-form').addEventListener('submit', handleFormSubmit);
+            }
+        }
+
+        function renderMessageBox() {
+            const messageBoxHtml = `
+                <div class="fixed inset-0 bg-gray-900 bg-opacity-70 flex items-center justify-center z-50">
+                    <div class="${message.type === 'error' ? 'bg-red-500' : 'bg-green-500'} text-white p-6 rounded-lg shadow-xl max-w-sm text-center transform scale-95 md:scale-100">
+                        <p class="mb-4 text-lg font-medium">${message.text}</p>
+                        <button onclick="setMessage(null)" class="bg-white text-gray-800 font-medium px-4 py-2 rounded-lg hover:bg-gray-200 transition-colors">
+                            OK
+                        </button>
+                    </div>
+                </div>
+            `;
+            const messageBoxContainer = document.createElement('div');
+            messageBoxContainer.innerHTML = messageBoxHtml;
+            document.body.appendChild(messageBoxContainer);
+        }
+
+        // --- Functions ---
+        function handleLogin(event) {
+            event.preventDefault();
+            const emailInput = document.getElementById('email');
+            const passwordInput = document.getElementById('password');
+            email = emailInput.value;
+            password = passwordInput.value;
+            if (email === 'admin@timewise.com' && password === 'password') {
+                isLoggedIn = true;
+                message = null;
+            } else {
+                setMessage({ type: 'error', text: 'Invalid email or password. Please use admin@timewise.com and password.' });
+            }
+            render();
+        }
+
+        function handleLogout() {
+            isLoggedIn = false;
+            email = '';
+            password = '';
+            timetables = [];
+            message = null;
+            render();
+        }
+
+        function setActiveTab(tab) {
+            activeTab = tab;
+            render();
+        }
+
+        function setSelectedTimetable(index) {
+            selectedTimetableIndex = index;
+            render();
+        }
+
+        function setMessage(msg) {
+            message = msg;
+            render();
+        }
+
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            for (let pair of formData.entries()) {
+                formParams[pair[0]] = pair[1];
+            }
+
+            isLoading = true;
+            render();
+
+            setTimeout(() => {
+                const newTimetables = [sampleTimetable]; // Use sample timetable for demonstration
+                timetables = newTimetables;
+                selectedTimetableIndex = 0;
+                setMessage({ type: 'success', text: 'Timetables generated successfully!' });
+                activeTab = 'timetables';
+                isLoading = false;
+                render();
+            }, 2000);
+        }
+
+        // Initial render
+        render();
+
+    </script>
+</body>
+</html>
